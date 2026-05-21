@@ -183,6 +183,19 @@
   }
   .s-delta.plus { color: var(--green); }
   .s-delta.minus { color: var(--red); }
+  .s-delete {
+    position: absolute;
+    bottom: 5px;
+    right: 7px;
+    font-size: 10px;
+    color: var(--gray-300);
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px;
+    border-radius: 3px;
+    transition: color .12s, background .12s;
+  }
+  .s-delete:hover { color: var(--red); background: var(--red-light); }
   .add-student-card {
     background: transparent;
     border: 1.5px dashed var(--gray-300);
@@ -438,7 +451,8 @@ const ACTIONS = [
   { label: '영어책 소리 내어 읽기', pts: 2 },
   { label: '오늘의 문장 3개 말하기', pts: 3 },
   { label: '질문 1개 만들기', pts: 2 },
-  { label: '친구 발표 듣기', pts: 1 },
+  { label: '숙제 해오기', pts: 2 },
+  { label: '단어 시험', pts: 2 },
   { label: '숙제 안 가져오기', pts: -1 },
   { label: '수업 중 계속 한국말만 하기', pts: -1 },
 ];
@@ -449,11 +463,7 @@ let selected = null;
 const deltas = {};
 
 if (!students) {
-  students = [
-    { name: '학생1', pts: 0 },
-    { name: '학생2', pts: 0 },
-    { name: '학생3', pts: 0 },
-  ];
+  students = [];
   save();
 }
 
@@ -489,6 +499,7 @@ function renderStudents() {
       <div class="s-name">${s.name}</div>
       <div class="s-pts">${s.pts}</div>
       <div class="s-unit">점</div>
+      <div class="s-delete" onclick="deleteStudent(event, ${i})" title="삭제">✕</div>
     `;
     card.onclick = () => { selected = i; render(); };
     g.appendChild(card);
@@ -576,6 +587,17 @@ function applyAction(ai) {
   }, 1400);
 
   showToast(`${students[selected].name} · ${a.label} ${a.pts > 0 ? '+' : ''}${a.pts}점`);
+}
+
+function deleteStudent(e, i) {
+  e.stopPropagation();
+  if (!confirm(`'${students[i].name}' 학생을 삭제할까요?`)) return;
+  students.splice(i, 1);
+  if (selected === i) selected = null;
+  else if (selected > i) selected--;
+  save();
+  render();
+  showToast('학생이 삭제되었습니다');
 }
 
 function openModal() {
