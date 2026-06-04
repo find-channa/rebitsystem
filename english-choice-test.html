@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우리 아이 영어, 학원 vs 공부방?</title>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FDF6EC;
+    --warm: #F5E6CE;
+    --green: #3D7A5E;
+    --green-light: #6BAF8E;
+    --green-pale: #D6EDDF;
+    --orange: #E07B39;
+    --orange-light: #F5A96B;
+    --brown: #5C3D2E;
+    --gray: #8A8078;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: var(--cream);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(109,175,142,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(224,123,57,0.1) 0%, transparent 50%);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  /* ── INTRO ── */
+  .intro-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 48px 40px;
+    box-shadow: 0 8px 40px rgba(61,122,94,0.12), 0 2px 8px rgba(0,0,0,0.06);
+    text-align: center;
+  }
+
+  .frog-icon {
+    font-size: 64px;
+    margin-bottom: 12px;
+    display: block;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .intro-tag {
+    display: inline-block;
+    background: var(--green-pale);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  .intro-title {
+    font-family: 'Gowun Batang', serif;
+    font-size: 26px;
+    color: var(--brown);
+    line-height: 1.45;
+    margin-bottom: 10px;
+  }
+
+  .intro-sub {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.75;
+    margin-bottom: 32px;
+  }
+
+  .btn-start {
+    display: inline-block;
+    background: var(--green);
+    color: white;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 48px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 18px rgba(61,122,94,0.35);
+  }
+  .btn-start:hover {
+    background: #2d6349;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(61,122,94,0.40);
+  }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 40px 36px;
+    box-shadow: 0 8px 40px rgba(61,122,94,0.12), 0 2px 8px rgba(0,0,0,0.06);
+    display: none;
+    animation: slideIn 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)  scale(1); }
+  }
+
+  .progress-bar {
+    background: var(--green-pale);
+    border-radius: 10px;
+    height: 6px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+  }
+
+  .q-step {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .q-emoji {
+    font-size: 42px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .q-text {
+    font-family: 'Gowun Batang', serif;
+    font-size: 21px;
+    color: var(--brown);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .q-hint {
+    font-size: 12.5px;
+    color: var(--gray);
+    margin-bottom: 28px;
+    line-height: 1.65;
+  }
+
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .btn-yes, .btn-no {
+    padding: 16px 12px;
+    border-radius: 16px;
+    border: 2.5px solid transparent;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.22s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-yes {
+    background: var(--green-pale);
+    color: var(--green);
+    border-color: #b2dcc5;
+  }
+  .btn-yes:hover {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(61,122,94,0.3);
+  }
+  .btn-no {
+    background: #FEF0E6;
+    color: var(--orange);
+    border-color: #f5c9a3;
+  }
+  .btn-no:hover {
+    background: var(--orange);
+    color: white;
+    border-color: var(--orange);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(224,123,57,0.3);
+  }
+
+  .btn-label-big { font-size: 22px; }
+
+  /* ── RESULT CARD ── */
+  .result-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 44px 36px;
+    box-shadow: 0 8px 40px rgba(61,122,94,0.12), 0 2px 8px rgba(0,0,0,0.06);
+    display: none;
+    text-align: center;
+    animation: slideIn 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .result-badge {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 20px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .badge-hakwon { background: #DDEEFF; color: #2255AA; }
+  .badge-study  { background: var(--green-pale); color: var(--green); }
+  .badge-both   { background: #F0E6FF; color: #6633CC; }
+
+  .result-emoji { font-size: 72px; margin-bottom: 10px; display: block; }
+
+  .result-title {
+    font-family: 'Gowun Batang', serif;
+    font-size: 24px;
+    color: var(--brown);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .result-sub {
+    font-size: 13.5px;
+    color: var(--gray);
+    margin-bottom: 24px;
+  }
+
+  .result-desc {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 22px 22px;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  .result-desc p {
+    font-size: 14px;
+    color: #4a3f35;
+    line-height: 1.85;
+  }
+
+  .result-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .tag {
+    background: var(--warm);
+    color: var(--brown);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+
+  .rebit-box {
+    background: linear-gradient(135deg, var(--green-pale) 0%, #e8f8f0 100%);
+    border: 1.5px solid #b2dcc5;
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  .rebit-box .rebit-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .rebit-box p {
+    font-size: 13.5px;
+    color: var(--brown);
+    line-height: 1.75;
+  }
+
+  .btn-retry {
+    background: transparent;
+    border: 2px solid var(--green);
+    color: var(--green);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 36px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.22s;
+  }
+  .btn-retry:hover {
+    background: var(--green);
+    color: white;
+  }
+
+  /* mobile */
+  @media (max-width: 480px) {
+    .intro-card, .question-card, .result-card { padding: 36px 24px; }
+    .intro-title { font-size: 22px; }
+    .q-text { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="intro-card" id="introCard">
+    <span class="frog-icon">🐸</span>
+    <div class="intro-tag">영어 선택 가이드</div>
+    <h1 class="intro-title">우리 아이 영어,<br>학원이 맞을까요?<br>공부방이 맞을까요?</h1>
+    <p class="intro-sub">
+      YES / NO 질문 8개만 답하면<br>
+      아이에게 맞는 영어 환경을 알려드려요.<br>
+      솔직하게 답할수록 정확해집니다 🙂
+    </p>
+    <button class="btn-start" onclick="startTest()">테스트 시작하기 →</button>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="question-card" id="questionCard">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="q-step" id="qStep">Q1 / 8</div>
+    <span class="q-emoji" id="qEmoji"></span>
+    <div class="q-text" id="qText"></div>
+    <div class="q-hint" id="qHint"></div>
+    <div class="btn-row">
+      <button class="btn-yes" onclick="answer(true)">
+        <span class="btn-label-big">👍</span>
+        <span>YES</span>
+      </button>
+      <button class="btn-no" onclick="answer(false)">
+        <span class="btn-label-big">🙅</span>
+        <span>NO</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card" id="resultCard"></div>
+
+</div>
+
+<script>
+// ── 결정 트리 ──
+// 각 노드: { q, hint, emoji, yes: 다음id, no: 다음id }
+// 리프 노드: { result: "hakwon" | "studyroom" | "both" }
+
+const tree = {
+  q1: {
+    q: "아이가 또래 친구들과 함께 배울 때 더 잘 집중하나요?",
+    hint: "집에서 혼자 학습지 풀 때보다 그룹 활동에서 눈이 빛나는 편인가요?",
+    emoji: "👫",
+    yes: "q2a",
+    no:  "q2b"
+  },
+  q2a: {
+    q: "통학 거리 15분 이내에 괜찮은 영어학원이 있나요?",
+    hint: "셔틀버스 유무 포함, 아이 혼자 또는 부모가 픽업 가능한 거리를 고려해보세요.",
+    emoji: "🚗",
+    yes: "q3a",
+    no:  "q3b"
+  },
+  q2b: {
+    q: "아이가 낯선 환경에 적응하는 데 시간이 걸리는 편인가요?",
+    hint: "새 학기, 새 학원 시작 때 1~2주 이상 불안해하거나 거부감을 보인 적 있나요?",
+    emoji: "😟",
+    yes: "q3c",
+    no:  "q3d"
+  },
+  q3a: {
+    q: "월 교육비 20만 원 이상은 부담 없이 지출 가능한가요?",
+    hint: "교재비·특강비 등 부가 비용까지 포함해서 생각해보세요.",
+    emoji: "💰",
+    yes: "q4a",
+    no:  "q4b"
+  },
+  q3b: {
+    q: "아이가 집 근처 소규모 공간에서 선생님과 가깝게 지내는 것을 편안해하나요?",
+    hint: "1:1 또는 소수 인원(4~6명)의 밀착 수업 환경을 좋아하는지 생각해보세요.",
+    emoji: "🏡",
+    yes: "q4c",
+    no:  "q4d"
+  },
+  q3c: {
+    q: "아이의 현재 영어 수준이 완전 초급(파닉스 미완성)인가요?",
+    hint: "알파벳은 알지만 파닉스 규칙이 흔들리거나 단어 읽기가 아직 힘든 단계인가요?",
+    emoji: "🔤",
+    yes: "r_studyroom_phonics",
+    no:  "q4e"
+  },
+  q3d: {
+    q: "아이가 경쟁이나 레벨 테스트 등 자극을 받을 때 더 열심히 하는 편인가요?",
+    hint: "시험 결과표, 반 편성, 성취 뱃지 등에 긍정적으로 반응하나요?",
+    emoji: "🏆",
+    yes: "r_hakwon_competitive",
+    no:  "r_both_independent"
+  },
+  q4a: {
+    q: "아이가 현재 영어에 대한 흥미와 자신감이 어느 정도 있나요?",
+    hint: "영어 시간을 싫어하지 않고 읽기·말하기를 시도하려는 의지가 있는 편인가요?",
+    emoji: "✨",
+    yes: "r_hakwon_strong",
+    no:  "q5a"
+  },
+  q4b: {
+    q: "학원의 정해진 진도·시간표보다 아이 개인 속도에 맞춘 커리큘럼을 원하나요?",
+    hint: "빠른 친구를 따라가기보다 우리 아이만의 페이스를 중요하게 생각하나요?",
+    emoji: "⏱️",
+    yes: "r_studyroom_pace",
+    no:  "r_hakwon_budget"
+  },
+  q4c: {
+    q: "원서(영어 그림책·챕터북) 읽기를 영어 학습의 핵심으로 생각하나요?",
+    hint: "문법·단어 암기보다 책을 통한 자연스러운 습득을 원하는 편인가요?",
+    emoji: "📚",
+    yes: "r_studyroom_reading",
+    no:  "r_both_distance"
+  },
+  q4d: {
+    q: "학원 레벨 시스템(반 편성·진급 테스트)을 아이 동기부여에 활용하고 싶나요?",
+    hint: "급수 올라가는 성취감이 아이 학습 의지를 높이는 데 효과적이었나요?",
+    emoji: "🎯",
+    yes: "r_hakwon_level",
+    no:  "r_studyroom_cozy"
+  },
+  q4e: {
+    q: "부모가 학원 숙제 챙기기·시간표 관리를 꼼꼼히 할 여유가 있나요?",
+    hint: "주 3~4회 시간표에 맞춰 아이를 챙기고 숙제를 확인할 수 있는 상황인가요?",
+    emoji: "👩‍👧",
+    yes: "r_hakwon_support",
+    no:  "r_studyroom_flexible"
+  },
+  q5a: {
+    q: "아이가 학원에서 뒤처지는 느낌을 받을 때 더 의기소침해지는 편인가요?",
+    hint: "자존감이 낮아져 영어 자체를 싫어하게 될까봐 걱정되신 적 있나요?",
+    emoji: "😔",
+    yes: "r_studyroom_selfesteem",
+    no:  "r_hakwon_challenge"
+  },
+
+  // ── 결과 노드 ──
+  r_hakwon_strong: { result: "hakwon", type: "strong" },
+  r_hakwon_competitive: { result: "hakwon", type: "competitive" },
+  r_hakwon_budget: { result: "hakwon", type: "budget" },
+  r_hakwon_level: { result: "hakwon", type: "level" },
+  r_hakwon_support: { result: "hakwon", type: "support" },
+  r_hakwon_challenge: { result: "hakwon", type: "challenge" },
+  r_studyroom_phonics: { result: "studyroom", type: "phonics" },
+  r_studyroom_pace: { result: "studyroom", type: "pace" },
+  r_studyroom_reading: { result: "studyroom", type: "reading" },
+  r_studyroom_cozy: { result: "studyroom", type: "cozy" },
+  r_studyroom_selfesteem: { result: "studyroom", type: "selfesteem" },
+  r_studyroom_flexible: { result: "studyroom", type: "flexible" },
+  r_both_independent: { result: "both", type: "independent" },
+  r_both_distance: { result: "both", type: "distance" },
+};
+
+const results = {
+  hakwon: {
+    types: {
+      strong:      { title: "학원 정규반이 딱 맞아요!", sub: "경쟁 환경에서 꽃피는 아이", tags: ["그룹수업", "자신감 있음", "경쟁 적응형"] },
+      competitive: { title: "학원 레벨 시스템이 딱 맞아요!", sub: "성취 동기가 뚜렷한 아이", tags: ["레벨업 동기", "승부욕 있음", "자극 반응형"] },
+      budget:      { title: "규모 있는 학원이 효율적이에요", sub: "비용 대비 커리큘럼 양이 중요한 경우", tags: ["가성비 중심", "체계적 진도", "대형 커리큘럼"] },
+      level:       { title: "학원 레벨 테스트가 동기부여가 돼요", sub: "목표 지향적인 학습 스타일", tags: ["레벨 목표", "체계적 진급", "성취 확인"] },
+      support:     { title: "관리형 학원이 안성맞춤이에요", sub: "부모가 함께 챙길 수 있는 구조", tags: ["숙제 관리", "정기 피드백", "부모 참여"] },
+      challenge:   { title: "자극이 있는 학원 환경이 맞아요", sub: "도전을 즐기는 아이에게", tags: ["도전 중심", "경쟁 환경", "긍정적 자극"] },
+    },
+    badge: "badge-hakwon",
+    badgeText: "🏫 영어학원 추천",
+    emoji: "🏫",
+    desc: `또래 친구들과 함께 경쟁하고 협력하며 배울 때 더 잘 성장하는 아이들이 있어요. 정기적인 레벨 테스트와 진급 시스템, 다양한 학습 자료와 체계적인 커리큘럼이 강점이에요. 아이의 영어 자신감과 흥미가 어느 정도 갖춰졌다면, 학원의 그룹 에너지가 큰 시너지를 낼 수 있답니다.`,
+    rebit: `📌 영어학원을 선택하셨다면, 처음 입학 전 아이의 파닉스·읽기 기초가 탄탄한지 꼭 확인해보세요. 기초가 흔들리면 학원 진도에서 금방 자신감을 잃을 수 있어요. 기초 보완이 필요하다면 소규모 공부방에서 먼저 기반을 다진 뒤 학원으로 진입하는 방법도 좋은 선택이에요 🐸`
+  },
+  studyroom: {
+    types: {
+      phonics:     { title: "소규모 공부방이 딱 맞아요!", sub: "파닉스 기초부터 차근차근", tags: ["파닉스 집중", "소수정예", "기초 탄탄"] },
+      pace:        { title: "공부방의 개별 맞춤이 딱 맞아요", sub: "아이 속도를 존중하는 환경", tags: ["개인 페이스", "맞춤 진도", "스트레스 없음"] },
+      reading:     { title: "원서 중심 공부방이 최고예요!", sub: "책 읽는 습관을 자연스럽게", tags: ["원서 읽기", "독서 습관", "자연스러운 습득"] },
+      cozy:        { title: "아늑한 공부방 환경이 맞아요", sub: "선생님과 친밀하게 배우는 스타일", tags: ["소수정예", "친밀한 환경", "신뢰 관계"] },
+      selfesteem:  { title: "자존감을 지키는 공부방이 맞아요", sub: "비교 없이 성장하는 공간", tags: ["자존감 보호", "비경쟁", "안전한 실수"] },
+      flexible:    { title: "유연한 공부방 시스템이 맞아요", sub: "부모 스케줄에 맞춰 조율 가능", tags: ["유연한 스케줄", "소통 쉬움", "부담 없음"] },
+    },
+    badge: "badge-study",
+    badgeText: "🏡 영어 공부방 추천",
+    emoji: "🏡",
+    desc: `소규모 공부방은 아이 한 명 한 명을 깊이 이해하는 환경이에요. 선생님과의 신뢰 관계 속에서 파닉스·원서 읽기·발음 교정까지 꼼꼼하게 챙겨줄 수 있죠. 특히 낯선 환경에 민감하거나, 기초를 탄탄히 다지고 싶은 아이에게 최적의 시작점이 됩니다.`,
+    rebit: `📌 리빗 영어 스터디룸은 낙민동·동래구에서 파닉스부터 챕터북 원서 수업까지, 4~6명 소수정예로 운영하는 공부방이에요. 아이의 현재 수준에 맞는 레벨 배정과 꼼꼼한 독서 습관 코칭을 제공하고 있어요. 궁금하신 점은 언제든지 문의해 주세요 🐸`
+  },
+  both: {
+    types: {
+      independent: { title: "어느 쪽도 잘 맞을 수 있어요", sub: "환경보다 방법이 더 중요한 아이", tags: ["자기주도형", "환경 적응력 좋음", "방법론 중심"] },
+      distance:    { title: "접근성이 결정적인 선택 기준이에요", sub: "거리와 편의성을 먼저 따지세요", tags: ["거리 우선", "통학 편의", "지속가능성"] },
+    },
+    badge: "badge-both",
+    badgeText: "🤔 상황에 따라 달라요",
+    emoji: "🤔",
+    desc: `아이의 성향을 봤을 때 학원과 공부방 어느 쪽도 잘 적응할 수 있는 유연한 타입이에요. 이럴 땐 통학 거리, 교사와의 첫 상담 느낌, 실제 수업 체험 등을 기준으로 결정하는 것이 더 효과적이에요. 체험 수업을 두 곳 이상 해보고 아이의 반응을 직접 관찰해보세요.`,
+    rebit: `📌 선택이 어렵다면, 먼저 공부방에서 체험 수업을 받아보는 것도 방법이에요. 소규모 공간에서는 아이의 영어 현재 수준과 학습 성향을 더 정확하게 파악할 수 있거든요. 리빗 영어 스터디룸에서 부담 없이 상담해보세요 🐸`
+  }
+};
+
+// ── 상태 ──
+let current = "q1";
+let step = 0;
+const maxSteps = 8;
+
+function startTest() {
+  document.getElementById("introCard").style.display = "none";
+  document.getElementById("questionCard").style.display = "block";
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const node = tree[current];
+  if (node.result) { showResult(node); return; }
+
+  step++;
+  document.getElementById("qStep").textContent = `Q${step} / ${maxSteps}`;
+  document.getElementById("progressFill").style.width = `${(step / maxSteps) * 100}%`;
+  document.getElementById("qEmoji").textContent = node.emoji;
+  document.getElementById("qText").textContent = node.q;
+  document.getElementById("qHint").textContent = node.hint;
+
+  // restart animation
+  const card = document.getElementById("questionCard");
+  card.style.animation = "none";
+  card.offsetHeight;
+  card.style.animation = "";
+}
+
+function answer(isYes) {
+  const node = tree[current];
+  current = isYes ? node.yes : node.no;
+  const next = tree[current];
+  if (next.result) { showResult(next); }
+  else { renderQuestion(); }
+}
+
+function showResult(node) {
+  document.getElementById("questionCard").style.display = "none";
+  const rc = document.getElementById("resultCard");
+  rc.style.display = "block";
+
+  const r = results[node.result];
+  const t = r.types[node.type];
+
+  const tagsHtml = t.tags.map(tag => `<span class="tag">#${tag}</span>`).join("");
+
+  rc.innerHTML = `
+    <span class="result-emoji">${r.emoji}</span>
+    <div class="result-badge ${r.badge}">${r.badgeText}</div>
+    <div class="result-title">${t.title}</div>
+    <div class="result-sub">${t.sub}</div>
+    <div class="result-desc"><p>${r.desc}</p></div>
+    <div class="result-tags">${tagsHtml}</div>
+    <div class="rebit-box">
+      <div class="rebit-label">🐸 리빗 한마디</div>
+      <p>${r.rebit}</p>
+    </div>
+    <button class="btn-retry" onclick="retryTest()">↩ 다시 테스트하기</button>
+  `;
+
+  rc.style.animation = "none";
+  rc.offsetHeight;
+  rc.style.animation = "";
+}
+
+function retryTest() {
+  current = "q1";
+  step = 0;
+  document.getElementById("resultCard").style.display = "none";
+  document.getElementById("introCard").style.display = "block";
+}
+</script>
+</body>
+</html>
